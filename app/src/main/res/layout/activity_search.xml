@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/weather4t"
+    tools:context=".SearchActivity"
+    android:orientation="vertical"
+    >
+
+
+    <EditText
+        android:layout_marginTop="150dp"
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Please Enter City Name:"
+        android:textSize="25sp"
+        android:layout_marginBottom="15dp"
+        android:inputType="textPersonName"
+        />
+
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/btnSearchCity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        android:text="Search"
+        android:textSize="20sp"
+        />
+
+
+</LinearLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstActivity"
+    >
+    <FrameLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <ImageView
+            android:id="@+id/imgBackground"
+            android:background="@drawable/weather4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
+
+<LinearLayout
+    android:background="#B7DD500F"
+    android:layout_gravity="left"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+    <Button
+
+    android:text="Weather Search"
+    android:id="@+id/btnSearch"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_selector"
+    android:textSize="20sp"
+    android:layout_margin="15dp"
+
+    />
+    <Button
+        android:id="@+id/btnPollution"
+        android:text="Air Pollution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+
+
+
+    />
+    <Button
+    android:id="@+id/btnAboutUs"
+    android:text="About Us"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+    android:textSize="20sp"
+    android:layout_margin="15dp"
+
+
+        />
+</LinearLayout>
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
