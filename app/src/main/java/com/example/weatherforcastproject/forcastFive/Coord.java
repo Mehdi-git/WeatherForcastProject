@@ -1,5 +1,5 @@
 
-package com.example.weatherforcastproject;
+package com.example.weatherforcastproject.forcastFive;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

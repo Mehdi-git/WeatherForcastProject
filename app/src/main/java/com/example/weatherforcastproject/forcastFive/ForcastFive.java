@@ -1,5 +1,5 @@
 
-package com.example.weatherforcastproject;
+package com.example.weatherforcastproject.forcastFive;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -17,7 +17,7 @@ public class ForcastFive {
     private Integer cnt;
     @SerializedName("list")
     @Expose
-    private java.util.List<com.example.weatherforcastproject.List> list = null;
+    private java.util.List<List> list = null;
     @SerializedName("city")
     @Expose
     private City city;
@@ -46,11 +46,11 @@ public class ForcastFive {
         this.cnt = cnt;
     }
 
-    public java.util.List<com.example.weatherforcastproject.List> getList() {
+    public java.util.List<List> getList() {
         return list;
     }
 
-    public void setList(java.util.List<com.example.weatherforcastproject.List> list) {
+    public void setList(java.util.List<List> list) {
         this.list = list;
     }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -29,12 +30,18 @@ public class SearchActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 edtSearch = findViewById(R.id.edtSearch);
-                 searchKey =edtSearch.getText().toString();
+                searchKey = edtSearch.getText().toString();
+                if (searchKey.isEmpty()) {
+                    Toast.makeText(SearchActivity.this, "Pleas enter a city name first!", Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(SearchActivity.this,MainActivity.class);
-                i.putExtra("name",searchKey);
+                } else {
 
-                startActivity(i);
+
+                    Intent i = new Intent(SearchActivity.this, MainActivity.class);
+                    i.putExtra("name", searchKey);
+
+                    startActivity(i);
+                }
             }
         });
 
