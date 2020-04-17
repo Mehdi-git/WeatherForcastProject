@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="75dp"
     android:layout_height="300dp"
-    tools:context=".MainActivity"
+    tools:context=".DetailActivity"
     android:orientation="vertical"
     android:background="@drawable/shape_weather"
     android:layout_marginBottom="0.5dp"
@@ -52,8 +52,8 @@
 
     <ImageView
         android:id="@+id/imgIcon"
-        android:layout_width="match_parent"
-        android:layout_height="92dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
 
         />
 

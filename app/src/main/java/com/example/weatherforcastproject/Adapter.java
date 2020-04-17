@@ -21,14 +21,14 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
 
 
-    List<com.example.weatherforcastproject.forcastFive.List>  myList;
+    List<com.example.weatherforcastproject.pojo.forcastFive.List>  myList;
 
 
 
 
-    public  Adapter(List<com.example.weatherforcastproject.forcastFive.List> e){
+    public  Adapter(List<com.example.weatherforcastproject.pojo.forcastFive.List> list){
 
-        myList=e;
+        myList=list;
 
     }
 
@@ -43,28 +43,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
 
     @SuppressLint("CheckResult")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int p) {
+    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+        holder.onBind(myList.get(position));
 
 
 
-        try {
-            SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
-            Date date1 = format1.parse(myList.get(p).getDtTxt());
-            SimpleDateFormat format2=new SimpleDateFormat("EE");
-
-        holder.txtDate.setText(format2.format(date1));
-        holder.txtDescribe.setText(myList.get(p).getWeather().get(0).getDescription());
-        holder.txtTempMax.setText((Math.round(myList.get(p).getMain().getTempMax())) +" "+ Html.fromHtml("&#8451;"));
-        holder.txtTempMin.setText((Math.round(myList.get(p).getMain().getTempMin())) +" "+ Html.fromHtml("&#8451;"));
-
-            Glide.with(holder.itemView)
-                .load("http://openweathermap.org/img/wn/" + myList.get(p).getWeather().get(0).getIcon() +"@2x.png")
-                .centerCrop()
-                .into(holder.imgIcon);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -80,6 +63,82 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
         TextView  txtDescribe;
         TextView  txtDate;
         ImageView imgIcon;
+
+        @SuppressLint("SetTextI18n")
+        private void onBind (com.example.weatherforcastproject.pojo.forcastFive.List list) {
+            try {
+                SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
+                Date date1 = format1.parse(list.getDtTxt());
+                SimpleDateFormat format2=new SimpleDateFormat("EE");
+                txtDate.setText(format2.format(date1));
+                txtDescribe.setText(list.getWeather().get(0).getDescription());
+                txtTempMax.setText((Math.round(list.getMain().getTempMax())) +" "+ Html.fromHtml("&#8451;"));
+                txtTempMin.setText((Math.round(list.getMain().getTempMin())) +" "+ Html.fromHtml("&#8451;"));
+                if(!(list.getWeather().get(0).getIcon() == null)) {
+                    String icon = list.getWeather().get(0).getIcon();
+                    switch (icon) {
+                        case "01d":
+                            imgIcon.setImageResource(R.drawable.clear_sky_day_new);
+                            break;
+                        case "01n":
+                            imgIcon.setImageResource(R.drawable.clear_sky_night_new);
+                            break;
+                        case "02d":
+                            imgIcon.setImageResource(R.drawable.few_clouds_day);
+                            break;
+                        case "02n":
+                            imgIcon.setImageResource(R.drawable.few_clouds_night);
+                            break;
+                        case "03d":
+                        case "03n":
+                            imgIcon.setImageResource(R.drawable.scattered_clouds);
+                            break;
+                        case "04d":
+                            imgIcon.setImageResource(R.drawable.broken_clouds_day);
+                            break;
+                        case "04n":
+                            imgIcon.setImageResource(R.drawable.broken_clouds_night);
+                            break;
+                        case "09d":
+                        case "09n":
+                            imgIcon.setImageResource(R.drawable.shower_rain);
+                            break;
+                        case "10d":
+                            imgIcon.setImageResource(R.drawable.rain_day);
+                            break;
+                        case "10n":
+                            imgIcon.setImageResource(R.drawable.rain_night);
+                            break;
+                        case "11d":
+                            imgIcon.setImageResource(R.drawable.thunderstorm_day);
+                            break;
+                        case "11n":
+                            imgIcon.setImageResource(R.drawable.thunderstorm_night);
+                            break;
+                        case "13d":
+                            imgIcon.setImageResource(R.drawable.snow_day);
+                            break;
+                        case "13n":
+                            imgIcon.setImageResource(R.drawable.snow_night);
+                            break;
+                        case "50d":
+                            imgIcon.setImageResource(R.drawable.mist_day);
+                            break;
+                        case "50n":
+                            imgIcon.setImageResource(R.drawable.mist_night);
+                            break;
+                    }
+                }
+
+//            Glide.with(holder.itemView)
+//                .load("http://openweathermap.org/img/wn/" + myList.get(p).getWeather().get(0).getIcon() +"@2x.png")
+//                .centerCrop()
+//                .into(holder.imgIcon);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
