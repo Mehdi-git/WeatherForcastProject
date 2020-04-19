@@ -1,4 +1,4 @@
-package com.example.weatherforcastproject;
+package com.example.weatherforcastproject.feature.search;
 import android.annotation.SuppressLint;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weatherforcastproject.R;
 import com.example.weatherforcastproject.pojo.weatherPojo.WeatherPojo;
-
 import java.util.List;
+
 public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerViewHolder> {
 
     private List<WeatherPojo> searchList;
@@ -32,22 +32,17 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
     }
 
 
-    @SuppressLint("SetTextI18n")
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
        holder.onBind(searchList.get(position));
-       // holder.txtName.setText(searchList.get(position).getName());
-//        holder.txtDescription.setText(searchList.get(position).getWeather().get(0).getDescription());
-//        holder.txtTemp.setText((Math.round(searchList.get(position).getMain().getTemp())) +" "+ Html.fromHtml("&#8451;"));
+
     }
-
-
 
     @Override
     public int getItemCount() {
         return searchList.size();
     }
-
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
@@ -67,8 +62,7 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
                 String icon = myList.getWeather().get(0).getIcon();
                 switch (icon) {
                     case "01d":
-                        imgIconWeather.setImageResource(R.drawable.clear_sky_day_new);
-
+                        imgIconWeather.setImageResource(R.drawable.clear_sky_day_1);
                         break;
                     case "01n":
                         imgIconWeather.setImageResource(R.drawable.clear_sky_night_new);

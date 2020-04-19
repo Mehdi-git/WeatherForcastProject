@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import com.example.weatherforcastproject.repository.Pair;
+import com.example.weatherforcastproject.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 

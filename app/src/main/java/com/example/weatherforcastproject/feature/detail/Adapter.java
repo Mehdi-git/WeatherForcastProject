@@ -1,4 +1,4 @@
-package com.example.weatherforcastproject;
+package com.example.weatherforcastproject.feature.detail;
 
 import android.annotation.SuppressLint;
 import android.text.Html;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.example.weatherforcastproject.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,7 +58,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        TextView  txtTempMax;
+        TextView  txtTime;
         TextView  txtTempMin;
         TextView  txtDescribe;
         TextView  txtDate;
@@ -72,13 +72,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
                 SimpleDateFormat format2=new SimpleDateFormat("EE");
                 txtDate.setText(format2.format(date1));
                 txtDescribe.setText(list.getWeather().get(0).getDescription());
-                txtTempMax.setText((Math.round(list.getMain().getTempMax())) +" "+ Html.fromHtml("&#8451;"));
+                txtTime.setText(list.getDtTxt().substring(11,16));
                 txtTempMin.setText((Math.round(list.getMain().getTempMin())) +" "+ Html.fromHtml("&#8451;"));
                 if(!(list.getWeather().get(0).getIcon() == null)) {
                     String icon = list.getWeather().get(0).getIcon();
                     switch (icon) {
                         case "01d":
-                            imgIcon.setImageResource(R.drawable.clear_sky_day_new);
+                            imgIcon.setImageResource(R.drawable.clear_sky_day_1);
                             break;
                         case "01n":
                             imgIcon.setImageResource(R.drawable.clear_sky_night_new);
@@ -134,7 +134,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
 //                .load("http://openweathermap.org/img/wn/" + myList.get(p).getWeather().get(0).getIcon() +"@2x.png")
 //                .centerCrop()
 //                .into(holder.imgIcon);
-
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -142,7 +141,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-               txtTempMax = itemView.findViewById(R.id.txtTempMax);
+               txtTime = itemView.findViewById(R.id.txtTime);
                txtTempMin = itemView.findViewById(R.id.txtTempMin);
                imgIcon = itemView.findViewById(R.id.imgIcon);
                txtDescribe = itemView.findViewById(R.id.txtDescribe);

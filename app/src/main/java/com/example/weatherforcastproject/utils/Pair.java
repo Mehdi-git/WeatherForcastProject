@@ -1,4 +1,4 @@
-package com.example.weatherforcastproject.repository;
+package com.example.weatherforcastproject.utils;
 
 public class Pair<L,R> {
     private L l;

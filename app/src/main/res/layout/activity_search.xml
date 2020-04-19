@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/weather4t"
-    tools:context=".SearchActivity"
+    tools:context=".feature.search.SearchActivity"
     android:orientation="vertical"
     >
 
