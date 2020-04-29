@@ -4,18 +4,18 @@ package com.example.weatherforcastproject.pojo.forecast;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Sys {
+public class Rain {
 
-    @SerializedName("pod")
+    @SerializedName("3h")
     @Expose
-    private String pod;
+    private Double _3h;
 
-    public String getPod() {
-        return pod;
+    public Double get3h() {
+        return _3h;
     }
 
-    public void setPod(String pod) {
-        this.pod = pod;
+    public void set3h(Double _3h) {
+        this._3h = _3h;
     }
 
 }

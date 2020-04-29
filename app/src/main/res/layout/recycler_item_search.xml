@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    tools:context=".feature.detail.DetailActivity"
+    tools:context=".feature.detail.DetailView"
     android:orientation="horizontal"
     android:background="@drawable/shape_weather"
     android:layout_marginBottom="0.5dp"

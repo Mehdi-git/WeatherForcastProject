@@ -1,5 +1,4 @@
 package com.example.weatherforcastproject.feature.search;
-import android.annotation.SuppressLint;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherforcastproject.R;
-import com.example.weatherforcastproject.pojo.weatherPojo.WeatherPojo;
+import com.example.weatherforcastproject.pojo.weather.WeatherPojo;
 import java.util.List;
 
 public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerViewHolder> {
 
     private List<WeatherPojo> searchList;
+    ClickListener listener;
 
-    public AdapterSearch (List<WeatherPojo> list) {
+
+    public AdapterSearch (List<WeatherPojo> list , ClickListener listener) {
        searchList = list;
+       this.listener = listener;
     }
 
 
@@ -44,6 +46,8 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
         return searchList.size();
     }
 
+
+
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imgIconWeather;
@@ -52,7 +56,6 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
         TextView txtName;
 
 
-        @SuppressLint("SetTextI18n")
         private void onBind(WeatherPojo myList){
             txtName.setText(myList.getName());
             txtDescription.setText(myList.getWeather().get(0).getDescription());
@@ -62,7 +65,7 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
                 String icon = myList.getWeather().get(0).getIcon();
                 switch (icon) {
                     case "01d":
-                        imgIconWeather.setImageResource(R.drawable.clear_sky_day_1);
+                        imgIconWeather.setImageResource(R.drawable.clear_sky_day_new);
                         break;
                     case "01n":
                         imgIconWeather.setImageResource(R.drawable.clear_sky_night_new);
@@ -119,6 +122,19 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!searchList.isEmpty())
+                    listener.onItemClick(searchList.get(getAdapterPosition()).getName());
+
+                }
+            });
+            itemView.setOnLongClickListener(v -> {
+                listener.onItemLongClick(searchList.get(getAdapterPosition()).getId());
+                notifyDataSetChanged();
+                return false;
+            });
             imgIconWeather = itemView.findViewById(R.id.imgIconWeather);
             txtDescription = itemView.findViewById(R.id.txtDescription);
             txtTemp = itemView.findViewById(R.id.txtTemp);

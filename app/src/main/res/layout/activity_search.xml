@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/weather4t"
-    tools:context=".feature.search.SearchActivity"
+    tools:context=".feature.search.SearchView"
     android:orientation="vertical"
     >
 
 
     <EditText
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/edtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,14 +40,14 @@
 
             />
 
-        <Button
-            android:id="@+id/btnRefresh"
-            android:layout_width="90dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_selector"
-            android:text="@string/refresh"
-            android:textSize="15sp"
-            />
+<!--        <Button-->
+<!--            android:id="@+id/btnRefresh"-->
+<!--            android:layout_width="90dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/button_selector"-->
+<!--            android:text="@string/refresh"-->
+<!--            android:textSize="15sp"-->
+<!--            />-->
 
     </LinearLayout>
 
@@ -56,7 +56,7 @@
             android:layout_width="36dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:visibility="invisible" />
 
 
@@ -68,7 +68,10 @@
         android:id="@+id/RecycleCityList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp" />
+        android:layout_marginEnd="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        />
 
 
 

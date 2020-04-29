@@ -12,23 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherforcastproject.R;
+import com.example.weatherforcastproject.pojo.forecast.List;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
-public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
 
 
-    List<com.example.weatherforcastproject.pojo.forcastFive.List>  myList;
+public class AdapterDetail extends RecyclerView.Adapter<AdapterDetail.RecyclerViewHolder> {
 
+    private java.util.List<List>  myList;
 
+    public AdapterDetail(java.util.List<List> list){
 
-
-    public  Adapter(List<com.example.weatherforcastproject.pojo.forcastFive.List> list){
-
-        myList=list;
+        myList = list;
 
     }
 
@@ -38,17 +35,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item,parent,false);
         RecyclerViewHolder holder = new RecyclerViewHolder(v);
         return holder;
-
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         holder.onBind(myList.get(position));
-
-
-
-
     }
 
 
@@ -64,8 +55,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
         TextView  txtDate;
         ImageView imgIcon;
 
-        @SuppressLint("SetTextI18n")
-        private void onBind (com.example.weatherforcastproject.pojo.forcastFive.List list) {
+        private void onBind (com.example.weatherforcastproject.pojo.forecast.List list) {
             try {
                 SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
                 Date date1 = format1.parse(list.getDtTxt());
@@ -78,7 +68,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
                     String icon = list.getWeather().get(0).getIcon();
                     switch (icon) {
                         case "01d":
-                            imgIcon.setImageResource(R.drawable.clear_sky_day_1);
+                            imgIcon.setImageResource(R.drawable.clear_sky_day_new);
                             break;
                         case "01n":
                             imgIcon.setImageResource(R.drawable.clear_sky_night_new);
@@ -130,10 +120,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.RecyclerViewHolder> {
                     }
                 }
 
-//            Glide.with(holder.itemView)
-//                .load("http://openweathermap.org/img/wn/" + myList.get(p).getWeather().get(0).getIcon() +"@2x.png")
-//                .centerCrop()
-//                .into(holder.imgIcon);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

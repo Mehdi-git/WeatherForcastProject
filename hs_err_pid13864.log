@@ -341,7 +341,7 @@ PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
 
 OS: Windows 10.0 , 64 bit Build 17134 (10.0.17134.706)
 
-CPU:total 2 (initial active 2) (2 cores per cpu, 1 threads per core) family 6 model 69 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, clmul, erms, lzcnt, tsc, tscinvbit
+CPU:total 2 (initial active 2) (2 cores per cpu, 1 threads per core) family 6 network 69 stepping 1, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, clmul, erms, lzcnt, tsc, tscinvbit
 
 Memory: 4k page, physical 8298284k(1615972k free), swap 12394284k(4792k free)
 

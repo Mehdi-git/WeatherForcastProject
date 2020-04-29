@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.weatherforcastproject.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,23 @@ import java.util.List;
 
 public class CitySQLiteHelper extends SQLiteOpenHelper {
 
-    String TABLE_NAME = "Cities";
+    private static CitySQLiteHelper sInstance;
+    private static final String TABLE_NAME = "Cities";
+    private static final int DATABASE_VERSION = 1;
+
+    public static synchronized CitySQLiteHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        if (sInstance == null) {
+            sInstance = new CitySQLiteHelper(context);
+        }
+        return sInstance;
+    }
 
 
-    public CitySQLiteHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    private CitySQLiteHelper(Context context ) {
+        super(context, TABLE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -82,9 +96,16 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public void deleteCity(int cityId){
+        Log.d("SQLite", ""+cityId );
+        String DELETE_CITY_QUERY = "DELETE FROM " + TABLE_NAME + " WHERE cityId = "+cityId;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(DELETE_CITY_QUERY);
+        db.close();
+    }
     // this method get city and country from database and make them as List of pairs
     public List<Pair<String, String>> getCityList() {
-
         List<Pair<String, String>> cities = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String GET_CITY_LIST = " SELECT city,country FROM " + TABLE_NAME;
@@ -98,7 +119,7 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
         }
         return cities;
     }
-    //This method male list of all city's IDs
+    //This method make list of all city's IDs
     public List <Integer> getListOfCityIds () {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Integer> result = new ArrayList<>();

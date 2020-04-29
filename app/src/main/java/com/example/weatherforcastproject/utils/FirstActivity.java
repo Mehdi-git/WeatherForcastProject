@@ -1,4 +1,4 @@
-package com.example.weatherforcastproject;
+package com.example.weatherforcastproject.utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.weatherforcastproject.feature.search.SearchActivity;
+import com.example.weatherforcastproject.R;
+import com.example.weatherforcastproject.feature.search.SearchView;
 
 public class FirstActivity extends AppCompatActivity {
 
@@ -41,7 +42,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(FirstActivity.this, SearchActivity.class);
+                Intent intent = new Intent(FirstActivity.this, SearchView.class);
                 startActivity(intent);
             }
         });

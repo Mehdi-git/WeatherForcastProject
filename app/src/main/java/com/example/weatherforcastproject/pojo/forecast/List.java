@@ -1,5 +1,5 @@
 
-package com.example.weatherforcastproject.pojo.forcastFive;
+package com.example.weatherforcastproject.pojo.forecast;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -21,6 +21,9 @@ public class List {
     @SerializedName("wind")
     @Expose
     private Wind wind;
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
     @SerializedName("sys")
     @Expose
     private Sys sys;
@@ -66,6 +69,14 @@ public class List {
 
     public void setWind(Wind wind) {
         this.wind = wind;
+    }
+
+    public Rain getRain() {
+        return rain;
+    }
+
+    public void setRain(Rain rain) {
+        this.rain = rain;
     }
 
     public Sys getSys() {

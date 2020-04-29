@@ -1,5 +1,5 @@
 
-package com.example.weatherforcastproject.pojo.weatherPojo;
+package com.example.weatherforcastproject.pojo.weather;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

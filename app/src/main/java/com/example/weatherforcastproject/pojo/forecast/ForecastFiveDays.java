@@ -1,17 +1,17 @@
 
-package com.example.weatherforcastproject.pojo.forcastFive;
+package com.example.weatherforcastproject.pojo.forecast;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ForcastFive {
+public class ForecastFiveDays {
 
     @SerializedName("cod")
     @Expose
     private String cod;
     @SerializedName("message")
     @Expose
-    private Double message;
+    private Integer message;
     @SerializedName("cnt")
     @Expose
     private Integer cnt;
@@ -30,11 +30,11 @@ public class ForcastFive {
         this.cod = cod;
     }
 
-    public Double getMessage() {
+    public Integer getMessage() {
         return message;
     }
 
-    public void setMessage(Double message) {
+    public void setMessage(Integer message) {
         this.message = message;
     }
 
