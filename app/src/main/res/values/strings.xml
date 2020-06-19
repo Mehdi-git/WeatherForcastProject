@@ -1,6 +1,24 @@
 <resources>
-    <string name="app_name">AAA Weather Forecast</string>
-    <string name="refresh">Refresh</string>
+    <string name="app_name">Weather Forecast</string>
     <string name="search">Search</string>
     <string name="please_enter_city_name">Please Enter City Name:</string>
+    <string name="City_Not_Found">Sorry, City Not Found!</string>
+    <string name="check_weather">Add</string>
+    <string name="City_Deleted">City Deleted!</string>
+    <string name="Pleas_enter_a_city_name_first">Pleas enter a city name first!</string>
+    <string name="Real_Feel" >RealFeel®:</string>
+    <string name="Min">Min</string>
+    <string name="Max">Max</string>
+    <string name="Do_you_want_to_delete_this_city">Do you want to delete the city?</string>
+    <string name="yes">yes</string>
+    <string name="No">No</string>
+    <string name="Some_error_Occurred">Sorry! Some Error Occurred!</string>
+    <string name="Please_Press_Back_Again_For_Exit">Please Press Back Again For Exit!</string>
+    <string name="GPS">GPS</string>
+    <string name="GPS_is_not_enabled">GPS is not enabled. Do you want to go to setting menu?</string>
+    <string name="setting">Setting</string>
+    <string name="cancel">Cancel</string>
+    <string name="shake_phone_for_refresh_and_long_press_for_delete">Shake phone for refresh </string>
+
+
 </resources>

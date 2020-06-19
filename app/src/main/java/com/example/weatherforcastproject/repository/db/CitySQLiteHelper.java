@@ -5,9 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.example.weatherforcastproject.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +18,6 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
 
     public static synchronized CitySQLiteHelper getInstance(Context context) {
 
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
         if (sInstance == null) {
             sInstance = new CitySQLiteHelper(context);
         }
@@ -56,18 +51,14 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
         try {
             String isExist = " SELECT cityId FROM " + TABLE_NAME + " WHERE cityId =" + id;
             Cursor cursor = db.rawQuery(isExist, null);
-            if (cursor.getCount()>0) {
+            if (cursor.getCount()>0)
                 theCityIsExist = true;
-            }
 
         }catch (Exception ex){
             Log.d("MyTag","Some Error while check city existence! " + ex.getMessage());
-
         }
-
         return theCityIsExist;
     }
-
 
     // This method insert information of city to database
     public void insertCity(String city, String country, int cityId) {
@@ -94,9 +85,8 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
         }finally {
             db.close();
         }
-
     }
-
+    //To delete city information from database
     public void deleteCity(int cityId){
         Log.d("SQLite", ""+cityId );
         String DELETE_CITY_QUERY = "DELETE FROM " + TABLE_NAME + " WHERE cityId = "+cityId;
@@ -105,7 +95,7 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
     // this method get city and country from database and make them as List of pairs
-    public List<Pair<String, String>> getCityList() {
+    public List<Pair<String, String>> getCityListAsPair() {
         List<Pair<String, String>> cities = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String GET_CITY_LIST = " SELECT city,country FROM " + TABLE_NAME;
@@ -119,7 +109,7 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
         }
         return cities;
     }
-    //This method make list of all city's IDs
+    //This method make list of all city's Id
     public List <Integer> getListOfCityIds () {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Integer> result = new ArrayList<>();
@@ -129,7 +119,7 @@ public class CitySQLiteHelper extends SQLiteOpenHelper {
             result.add(cursor.getInt(0));
             db.close();
         }
-        Log.d("MyTag","Return fo getListOfCityIds method is:"+result.toString());
+        Log.d("MyTag","Return fo getListOfCityIds method:"+result.toString());
         return result;
     }
 }

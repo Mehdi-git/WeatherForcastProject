@@ -8,7 +8,6 @@
     android:id="@+id/drawer_layout"
     >
     <FrameLayout
-
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     <ImageView
@@ -21,7 +20,7 @@
 
 <LinearLayout
     android:background="#B7DD500F"
-    android:layout_gravity="left"
+    android:layout_gravity="start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -36,7 +35,6 @@
     android:background="@drawable/button_selector"
     android:textSize="20sp"
     android:layout_margin="15dp"
-
     />
     <Button
         android:id="@+id/btnPollution"
@@ -46,9 +44,6 @@
         android:background="@drawable/button_selector"
         android:textSize="20sp"
         android:layout_margin="15dp"
-
-
-
     />
     <Button
     android:id="@+id/btnAboutUs"
@@ -58,8 +53,6 @@
         android:background="@drawable/button_selector"
     android:textSize="20sp"
     android:layout_margin="15dp"
-
-
         />
 </LinearLayout>
 

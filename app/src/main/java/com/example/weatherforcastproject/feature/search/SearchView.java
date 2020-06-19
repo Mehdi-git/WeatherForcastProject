@@ -7,32 +7,23 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.weatherforcastproject.R;
+import com.example.weatherforcastproject.databinding.ActivitySearchBinding;
+import com.example.weatherforcastproject.di.DaggerSearchComponent;
+import com.example.weatherforcastproject.di.SearchModule;
 import com.example.weatherforcastproject.feature.detail.DetailView;
 import com.example.weatherforcastproject.pojo.weather.WeatherPojo;
 import com.example.weatherforcastproject.utils.ShakeDetector;
 import java.util.List;
+import javax.inject.Inject;
 
-import javax.xml.transform.Result;
+public class SearchView  extends AppCompatActivity implements Contract.View, ClickListener {
 
-public class SearchView extends AppCompatActivity implements Contract.View, ClickListener {
-
-    private Contract.Presenter presenter = new SearchPresenter(this);
-
-    EditText edtSearch;
-    Button btnSearchCity;
-    AdapterSearch adapter;
-    ProgressBar progressBar;
-
-
-
+    private ActivitySearchBinding binding;
 
     // The following are used for the shake detection
     private SensorManager mSensorManager;
@@ -40,48 +31,49 @@ public class SearchView extends AppCompatActivity implements Contract.View, Clic
     private ShakeDetector mShakeDetector;
     //
 
+    @Inject
+    Contract.Presenter presenter ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        edtSearch = findViewById(R.id.edtSearch);
-        btnSearchCity = findViewById(R.id.btnSearchCity);
-        progressBar = findViewById(R.id.progress);
+        DaggerSearchComponent.builder()
+                .searchModule(new SearchModule(this))
+                .build().injectSearchView(this);
+
+
+        binding.btnSearchCity.setOnClickListener(v ->
+                presenter.onSearchButtonClicked());
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
-            @Override
-            public void onShake(int count) {
-                /**
-                 * The following method you would use
-                 * to setup whatever you want done once the
-                 * device has been shook.
-                 */
-                presenter.makeAdapterReady();
-            }
+        mShakeDetector.setOnShakeListener(count -> {
+            /**
+             * The following method you would use
+             * to setup whatever you want done once the
+             * device has been shaken.
+             */
+            presenter.makeAdapterReady();
         });
-        //
-
-        btnSearchCity.setOnClickListener(v ->
-                presenter.onSearchButtonClicked());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        // register the Session Manager Listener onResume
+        // Register the Session Manager Listener onResume
         mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // unregister the Sensor Manager onPause
+        // Unregister the Sensor Manager onPause
         mSensorManager.unregisterListener(mShakeDetector);
     }
 
@@ -93,66 +85,87 @@ public class SearchView extends AppCompatActivity implements Contract.View, Clic
 
     @Override
     public String getSearchKey() {
-        return edtSearch.getText().toString();
+        return binding.edtSearch.getText().toString();
     }
 
+    /**
+     * Shift to detail activity for show present and forecast weather of the city
+     * @param key is intent key
+     * @param id is city's id in openWeatherMap server
+     */
     @Override
-    public void makeIntent(String key, String searchKey) {
+    public void makeIntentById(String key, int id) {
         Intent intent = new Intent(SearchView.this, DetailView.class);
-        intent.putExtra(key, searchKey);
+        intent.putExtra(key, id);
         startActivity(intent);
     }
 
     @Override
-    public void showAdapter(List<WeatherPojo> detailList) {
-        RecyclerView recyclerView = findViewById(R.id.RecycleCityList);
-        adapter = new AdapterSearch(detailList,this);
-        recyclerView.setAdapter(adapter);
+    public void showRecycler(List<WeatherPojo> detailList) {
+        AdapterSearch adapter = new AdapterSearch(detailList, this);
+        binding.RecycleCityList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        binding.RecycleCityList.setAdapter(adapter);
     }
 
+    /**
+     * aks user whether want to delete the city or not
+     * @param cityId is id of the city which user long press on it
+     */
     @Override
     public void showAlertDialog(int cityId) {
         AlertDialog dialog = new  AlertDialog.Builder(SearchView.this).create();
-        dialog.setMessage("Do you want to delete the city?");
-        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "yes", (dialog12, which) -> {
+        dialog.setMessage(getString(R.string.Do_you_want_to_delete_this_city));
+        dialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), (dialog12, which) -> {
             presenter.onPositiveButtonClicked(cityId);
         });
-        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialog1, which) -> {
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.No), (dialog1, which) -> {
             //Do nothing
         });
         dialog.show();
     }
 
     @Override
+    public Context getContext() {
+        return getApplicationContext();
+    }
+
+    @Override
     public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        progressBar.setVisibility(View.INVISIBLE);
+        binding.progress.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * following method makes delay for item of recyclerView get complete
+     * and then will ask presenter for set the list to adapter
+     * @param milliSecond is delay length
+     */
     @Override
-    public void makeDelay(int milliSecond) {
+    public void makeDelayForGetListReady(int milliSecond) {
         new Handler().postDelayed(() -> {
             presenter.setAdapter();
         }, milliSecond);
     }
 
+
     @Override
-    public void showToast(String text) {
-        Toast.makeText(SearchView.this, text, Toast.LENGTH_SHORT).show();
+    public void showToast(int id) {
+        Toast.makeText(SearchView.this, getContext().getString(id), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onItemClick(String cityName) {
-        presenter.onItemClicked(cityName);
+    public void onItemClick(int cityId) {
+        presenter.onItemClicked(cityId);
     }
 
     @Override
     public void onItemLongClick(int cityId) {
         presenter.onLongItemClicked(cityId);
+
 
     }
 }

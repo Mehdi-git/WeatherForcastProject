@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="75dp"
     android:layout_height="320dp"
     tools:context=".feature.detail.DetailView"
     android:orientation="vertical"
-    android:background="@drawable/shape_weather"
+    android:background="#9FA9D7F1"
     android:layout_marginBottom="0.5dp"
-    android:layout_marginLeft="1dp"
-    android:layout_marginRight="2dp"
-
-
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
 >
 
     <TextView
@@ -30,7 +27,6 @@
         android:layout_height="30dp"
         android:gravity="center"
         android:textSize="15sp"
-
         />
 
     <TextView
@@ -43,8 +39,6 @@
         android:textStyle="bold"
         />
 
-
-
     <TextView
         android:id="@+id/txtTempMin"
         android:layout_width="match_parent"
@@ -52,7 +46,6 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="#0048FF"
-
         />
 
 
@@ -61,12 +54,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-
-
         />
-
-
-
 
 
 </LinearLayout>

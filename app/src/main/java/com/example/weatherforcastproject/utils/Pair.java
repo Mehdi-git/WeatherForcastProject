@@ -1,5 +1,9 @@
 package com.example.weatherforcastproject.utils;
 
+/*
+   Make pair of two object, this have used in case of get data from
+   two column (city,Country) in db and make them as one pair.
+ */
 public class Pair<L,R> {
     private L l;
     private R r;

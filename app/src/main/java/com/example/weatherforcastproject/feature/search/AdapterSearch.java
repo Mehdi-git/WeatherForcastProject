@@ -1,44 +1,42 @@
 package com.example.weatherforcastproject.feature.search;
-import android.text.Html;
+
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.weatherforcastproject.R;
 import com.example.weatherforcastproject.pojo.weather.WeatherPojo;
 import java.util.List;
+import com.example.weatherforcastproject.databinding.RecyclerItemSearchBinding;
+
+
+import static android.text.Html.*;
+import static java.text.MessageFormat.format;
 
 public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerViewHolder> {
 
     private List<WeatherPojo> searchList;
-    ClickListener listener;
-
+    private ClickListener listener;
 
     public AdapterSearch (List<WeatherPojo> list , ClickListener listener) {
        searchList = list;
        this.listener = listener;
     }
 
-
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_recycler_item,parent,false);
-        RecyclerViewHolder holder = new RecyclerViewHolder(v);
-        return holder;
+        RecyclerItemSearchBinding itemBinding = RecyclerItemSearchBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new RecyclerViewHolder(itemBinding);
     }
-
 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
        holder.onBind(searchList.get(position));
-
     }
 
     @Override
@@ -46,20 +44,20 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
         return searchList.size();
     }
 
-
-
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
-
         ImageView imgIconWeather;
         TextView txtDescription;
+        TextView txtHumidity;
+        TextView txtDegree;
         TextView txtTemp;
         TextView txtName;
 
-
-        private void onBind(WeatherPojo myList){
-            txtName.setText(myList.getName());
-            txtDescription.setText(myList.getWeather().get(0).getDescription());
-            txtTemp.setText((Math.round(myList.getMain().getTemp())) +" "+ Html.fromHtml("&#8451;"));
+            private void onBind(WeatherPojo myList)  {
+                txtName.setText(String.format("%s,%s", myList.getName(), myList.getSys().getCountry()));
+                txtDescription.setText(myList.getWeather().get(0).getDescription());
+                txtTemp.setText(format("{0}", Math.round(myList.getMain().getTemp())));
+                txtDegree.setText(fromHtml("&#8451"));
+                txtHumidity.setText(String.format("%s: %s%s","Humidity",myList.getMain().getHumidity(),"%"));
 
             if(!(myList.getWeather().get(0).getIcon() == null)) {
                 String icon = myList.getWeather().get(0).getIcon();
@@ -116,31 +114,28 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.RecyclerVi
                         break;
                 }
             }
-
-
         }
 
-        public RecyclerViewHolder(@NonNull View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!searchList.isEmpty())
-                    listener.onItemClick(searchList.get(getAdapterPosition()).getName());
+        public RecyclerViewHolder(@NonNull RecyclerItemSearchBinding itemBinding) {
+            super(itemBinding.getRoot());
 
-                }
+            imgIconWeather = itemBinding.imgIconWeather;
+            txtDescription = itemBinding.txtDescription;
+            txtHumidity = itemBinding.txtHumidity;
+            txtDegree = itemBinding.txtDegree;
+            txtTemp = itemBinding.txtTemp;
+            txtName= itemBinding.txtName;
+
+
+            itemView.setOnClickListener(v -> {
+                if (!searchList.isEmpty())
+                listener.onItemClick(searchList.get(getAdapterPosition()).getId());
+
             });
             itemView.setOnLongClickListener(v -> {
                 listener.onItemLongClick(searchList.get(getAdapterPosition()).getId());
-                notifyDataSetChanged();
                 return false;
             });
-            imgIconWeather = itemView.findViewById(R.id.imgIconWeather);
-            txtDescription = itemView.findViewById(R.id.txtDescription);
-            txtTemp = itemView.findViewById(R.id.txtTemp);
-            txtName = itemView.findViewById(R.id.txtName);
-
         }
     }
-
 }

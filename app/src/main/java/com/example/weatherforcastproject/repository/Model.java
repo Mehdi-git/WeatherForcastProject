@@ -1,27 +1,23 @@
 package com.example.weatherforcastproject.repository;
 
 import android.content.Context;
-
 import com.example.weatherforcastproject.pojo.forecast.ForecastFiveDays;
 import com.example.weatherforcastproject.pojo.weather.WeatherPojo;
 import com.example.weatherforcastproject.repository.db.CitySQLiteHelper;
 import com.example.weatherforcastproject.repository.network.RetrofitClient;
-
 import java.util.List;
-
 import retrofit2.Call;
 
 public class Model {
 
      private RetrofitClient retrofit;
      private CitySQLiteHelper helper;
-     Context context;
 
-     public Model(Context context){
-         this.context = context;
-         this.helper = CitySQLiteHelper.getInstance(context);
+    public Model(Context context){
+
          retrofit = RetrofitClient.getInstance();
-     }
+         this.helper = CitySQLiteHelper.getInstance(context);
+    }
 
      public Call<WeatherPojo> getWeatherResponseById (int id, String unit, String api){
          return retrofit.getWeatherResponseById(id,unit,api);
@@ -33,6 +29,10 @@ public class Model {
 
      public Call<ForecastFiveDays> getForecastResponseByName (String cityName , String unit, String api) {
          return retrofit.getForecastResponseByName(cityName, unit, api);
+     }
+
+     public Call<ForecastFiveDays> getForecastResponseById (int id, String unit, String api){
+        return  retrofit.getForecastResponseById(id,unit,api);
      }
 
      public List<Integer> getListOfCityIds (){

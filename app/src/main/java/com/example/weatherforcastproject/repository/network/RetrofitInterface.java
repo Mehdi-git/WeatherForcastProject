@@ -2,7 +2,6 @@ package com.example.weatherforcastproject.repository.network;
 
 import com.example.weatherforcastproject.pojo.forecast.ForecastFiveDays;
 import com.example.weatherforcastproject.pojo.weather.WeatherPojo;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -15,17 +14,22 @@ public interface RetrofitInterface {
     @GET("weather")
     Call<WeatherPojo> getWeatherByName(@Query("q") String cityName,
                                        @Query("units") String unit,
-                                       @Query ("APPID") String APPID);
+                                       @Query("APPID") String APPID);
+    @GET("weather")
+    Call<WeatherPojo> getWeatherById(@Query("id") int id,
+                                     @Query("units") String unit,
+                                     @Query("APPID") String APPID);
 
     @GET("forecast")
     Call<ForecastFiveDays> getForecastByName(@Query("q") String cityName,
                                              @Query("units") String unit,
-                                             @Query ("APPID") String APPID);
+                                             @Query("APPID") String APPID);
+    @GET("forecast")
+    Call<ForecastFiveDays> getForecastById(@Query("id") int id,
+                                           @Query("units") String unit,
+                                           @Query("APPID") String APPID);
 
-    @GET("weather")
-    Call<WeatherPojo> getWeatherById(@Query ("id") int id,
-                                     @Query("units") String unit,
-                                     @Query ("APPID") String APPID);
+
 
 
 

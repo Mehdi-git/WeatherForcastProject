@@ -1,11 +1,9 @@
 package com.example.weatherforcastproject.feature.search;
-
-
-import android.content.Context;
-import android.util.Log;
-import androidx.annotation.NonNull;
+import com.example.weatherforcastproject.R;
+import com.example.weatherforcastproject.base.BaseApplication;
 import com.example.weatherforcastproject.pojo.weather.WeatherPojo;
 import com.example.weatherforcastproject.repository.Model;
+import com.example.weatherforcastproject.utils.Constants;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,26 +11,65 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchPresenter implements Contract.Presenter {
 
-    String apiKey = "70224ba51fd21c4b9ff96c4ad7e2288c";
-    String unit = "metric";
+public class SearchPresenter extends BaseApplication implements Contract.Presenter {
+
     private List<WeatherPojo> detailList = new ArrayList<>();
-    private Contract.View view;
     private Model model;
+    private Contract.View view;
 
-    public SearchPresenter(@NonNull Contract.View view) {
+
+    public   SearchPresenter(Contract.View view ) {
         this.view = view;
-        model = new Model((Context) view);
+        model = new Model(view.getContext());
     }
-    /*
+
+    /**
+     * The following method gets city name which user has entered
+     * and pass it to the getCityIdByName method to get id of the city
+     */
+    @Override
+    public void onSearchButtonClicked() {
+        String searchKey = view.getSearchKey();
+        if (searchKey.isEmpty()) {
+            view.showToast(R.string.Pleas_enter_a_city_name_first);
+        } else {
+            getCityIdByName(searchKey);
+        }
+    }
+
+    /**
+     * The following method finds id of the cities
+     * @param cityName is name of city which has entered by user
+     * after get id of the city will send that to View for make intent
+     */
+    @Override
+    public void getCityIdByName(String cityName) {
+        model.getWeatherResponseByName(cityName,Constants.UNIT,Constants.API_KEY).enqueue(new Callback<WeatherPojo>() {
+            @Override
+            public void onResponse(Call<WeatherPojo> call, Response<WeatherPojo> response) {
+
+                if (!(response.body() == null)&&response.body().getCod().equals(200))   {
+                    view.makeIntentById("cityId", response.body().getId());
+                }
+                else view.showToast(R.string.City_Not_Found);
+            }
+            @Override
+            public void onFailure(Call<WeatherPojo> call, Throwable t) {
+                view.showToast(R.string.Some_error_Occurred);
+
+            }
+        });
+    }
+
+    /**
       Firstly this method creates a list of all cities's ID.
       Secondly it calls fetchWeatherInfoAndSaveToList() method for
       each city.
      */
     @Override
     public void makeAdapterReady() {
-        detailList.clear();
+
         List<Integer> historyCityId = model.getListOfCityIds();
         if (!(historyCityId == null)) {
             if((historyCityId.isEmpty())){
@@ -42,37 +79,34 @@ public class SearchPresenter implements Contract.Presenter {
             for (int id : historyCityId) {
                 fetchWeatherInfoAndSaveToList(id);
             }
-            view.makeDelay(2000);
+            view.makeDelayForGetListReady(2000);
         }
     }
 
     /**
-    This method fetches weather information of the city which id has been given and
-    add each one to list for show to the SearchView.
+     Following method fetches weather information of the city which id has been given and
+     add each one to list for show to the View.
      */
     @Override
     public void fetchWeatherInfoAndSaveToList(int id) {
-        model.getWeatherResponseById(id, unit, apiKey)
-                .enqueue(new Callback<WeatherPojo>() {
-                    @Override
-                    public void onResponse(Call<WeatherPojo> call, Response<WeatherPojo> response) {
-                        if (response.isSuccessful()) {
-                            if (!checkDetailListContainTheCity(detailList, response.body().getId())) {
-                                detailList.add(response.body());
-                                Log.d("MyTag", "detailList onResponse is :" + detailList.toString());
-                            }
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<WeatherPojo> call, Throwable t) {
-                        Log.d("MyTag", "Error while fetching data by retrofit" + t.getMessage());
-                    }
-                });
-
+        model.getWeatherResponseById(id, Constants.UNIT, Constants.API_KEY).enqueue(new Callback<WeatherPojo>() {
+            @Override
+            public void onResponse(Call<WeatherPojo> call, Response<WeatherPojo> response) {
+                if (response.isSuccessful()) {
+                   if (!checkDetailListContainTheCity(detailList, response.body().getId())) {
+                        detailList.add(response.body());
+                   }
+                }
+            }
+            @Override
+            public void onFailure(Call<WeatherPojo> call, Throwable t) {
+            }
+        });
     }
 
+
     /**
-    This method checks whether given List has the particular city Weather info or not.
+    Following method checks whether given List has the particular city Weather info or not.
      */
     @Override
     public boolean checkDetailListContainTheCity(Collection<WeatherPojo> c, int cityId) {
@@ -84,45 +118,43 @@ public class SearchPresenter implements Contract.Presenter {
         return false;
     }
 
-    @Override
-    public void onSearchButtonClicked() {
-       String searchKey = view.getSearchKey();
-        if (searchKey.isEmpty()) {
-            view.showToast("Pleas enter a city name first!");
-        } else {
-            view.makeIntent("name",searchKey);
-        }
-    }
-
     /**
-    This method send list to SearchView
+     Following method send list of city's weather to View for show in recyclerView
      */
     @Override
     public void setAdapter() {
-        if (!(detailList == null)) {
-            view.showAdapter(detailList);
-        }
         view.hideProgressBar();
+        if (!(detailList == null)) {
+            view.showRecycler(detailList);
+        }
+
     }
 
     @Override
-    public void onItemClicked(String cityName){
-        view.makeIntent("name", cityName);
+    public void onItemClicked(int id){
+        view.makeIntentById("cityId", id);
     }
 
     @Override
     public void onLongItemClicked(int cityId) {
         view.showAlertDialog(cityId);
-
     }
 
+    /**
+     * when user accept to delete city
+     * @param cityId is id of the city which user wanted to delete
+     */
     @Override
     public void onPositiveButtonClicked(int cityId) {
         model.deleteCityFromDb(cityId);
+        detailList.clear();
         makeAdapterReady();
-        view.showToast("City Deleted!");
+        view.showToast(R.string.City_Deleted);
+    }
 
-
+    @Override
+    public void onNegativeButtonClicked() {
+        //Do nothing
     }
 
 

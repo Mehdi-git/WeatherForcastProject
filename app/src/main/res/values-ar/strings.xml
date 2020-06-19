@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">"پیش بینی وضع هوا "</string>
+    <string name="search">جستجو</string>
+    <string name="please_enter_city_name">لطفاً نام شهر را وارد کنید</string>
+    <string name="City_Not_Found">متاسفانه شهر مورد نظر پیدا نشد!</string>
+    <string name="check_weather">افزودن</string>
+    <string name="City_Deleted">شهر مورد نظر خذف شد!</string>
+    <string name="Real_Feel">احساس واقعی®</string>
+    <string name="Pleas_enter_a_city_name_first" >لطفاً ابتدا نام شهر را وارد کنید!</string>
+    <string name="Max" >بیشینه دما</string>
+    <string name="Min">"کمینه دما "</string>
+    <string name="Do_you_want_to_delete_this_city">شهر مورد نظر پاک شود؟</string>
+    <string name="yes">بله</string>
+    <string name="No">خیر</string>
+    <string name="Some_error_Occurred">متاسفانه خطایی رخ داده است!</string>
+    <string name="Please_Press_Back_Again_For_Exit">لطفا برای خروج مجدداً دکمه عقب را بزنید!</string>
+    <string name="GPS">GPS</string>
+    <string name="GPS_is_not_enabled">جی پی اس فعال نیست. میخواهید وارد منو تنظیمات شوید؟</string>
+    <string name="setting">تنظیمات</string>
+    <string name="cancel">لغو</string>
+    <string name="shake_phone_for_refresh_and_long_press_for_delete" />
+</resources>
